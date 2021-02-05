@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"net/url"
 	"os"
+	"path"
 	"path/filepath"
 	"syscall"
 
@@ -213,6 +214,8 @@ func aliasesResolve() {
 	r := aliases.NewResolver()
 	r.SuffixSep = conf.SuffixSeparators
 	r.DropChars = conf.DropCharacters
+	r.ResolveHook = path.Join(configDir, "hooks", "alias-resolve")
+	r.ExistsHook = path.Join(configDir, "hooks", "alias-exist")
 
 	domainDirs, err := ioutil.ReadDir("domains/")
 	if err != nil {
